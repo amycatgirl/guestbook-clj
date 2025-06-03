@@ -1,0 +1,31 @@
+#+title: Guestbook
+
+A simple guestbook application written in Clojure, using:
+- Ring (w/ ~jetty~) as it's web server
+- H2 as the underlying database
+- Hiccup for HTML templates
+- and Compojure for routing
+
+* Running Guestbook
+To start ~guestbook~, you need to have Clojure installed on your machine. After following the installation procedure, you need to create the main database. No migration is provided, so the procedure is manual.
+
+Open a Clojure REPL and evaluate the following code at the root of the repository:
+
+#+begin_src clojure
+(require '[next.jdbc :as jdbc] '[next.jdbc.sql :as sql])
+(def db-spec {:dbtype "h2" :dbname "data"})
+(def datasource (jdbc/get-datasource db-spec))
+(jdbc/execute! datasource ["
+create table guestbook_data (
+  id int auto_increment primary key,
+  username varchar(32),
+  message varchar(2000)
+)
+"])
+
+#+end_src
+
+If no errors were returned, exit the REPL and run ~clojure -M -m guestbook.handler~ to start up the web server.
+
+* References
+- [[https://clojure-doc.org/articles/tutorials/basic_web_development/][Clojure Guides: Basic Web Development]]
