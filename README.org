@@ -22,7 +22,6 @@ create table guestbook_data (
   message varchar(2000)
 )
 "])
-
 #+end_src
 
 If no errors were returned, exit the REPL and run ~clojure -M -m guestbook.handler~ to start up the web server.
